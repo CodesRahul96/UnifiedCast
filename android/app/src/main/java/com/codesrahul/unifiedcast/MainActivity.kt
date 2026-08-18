@@ -419,8 +419,8 @@ fun TopHeader(
     onDisconnectClick: () -> Unit
 ) {
     val navBgColor = Color(0xFF1E1E1E)
-    val textCol = if (isDark) TextPrimary else LightTextPrimary
-    val txtSec = if (isDark) TextSecondary else LightTextSecondary
+    val textCol = TextPrimary
+    val txtSec = TextSecondary
 
     Card(
         modifier = Modifier
@@ -428,8 +428,8 @@ fun TopHeader(
             .statusBarsPadding()
             .padding(horizontal = 12.dp, vertical = 6.dp),
         shape = RoundedCornerShape(20.dp),
-        colors = CardDefaults.cardColors(containerColor = if (isDark) navBgColor else Color(0xFFF1F5F9)),
-        border = BorderStroke(1.dp, if (isDark) Color.White.copy(alpha = 0.08f) else Color.Black.copy(alpha = 0.06f))
+        colors = CardDefaults.cardColors(containerColor = navBgColor),
+        border = BorderStroke(1.dp, Color.White.copy(alpha = 0.08f))
     ) {
         Row(
             modifier = Modifier
@@ -438,43 +438,61 @@ fun TopHeader(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // App Branding Title Card
+            // App Branding Title Card (Clean title only)
             Card(
                 shape = RoundedCornerShape(14.dp),
-                colors = CardDefaults.cardColors(containerColor = if (isDark) Color(0xFF262626) else Color.White),
-                border = BorderStroke(1.dp, if (isDark) Color.White.copy(alpha = 0.06f) else Color.Black.copy(alpha = 0.04f))
+                colors = CardDefaults.cardColors(containerColor = Color(0xFF262626)),
+                border = BorderStroke(1.dp, Color.White.copy(alpha = 0.06f))
             ) {
-                Column(
-                    modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp)
+                Box(
+                    modifier = Modifier.padding(horizontal = 14.dp, vertical = 10.dp),
+                    contentAlignment = Alignment.Center
                 ) {
                     Text(
                         text = "UnifiedCast",
-                        fontSize = 18.sp,
+                        fontSize = 17.sp,
                         fontWeight = FontWeight.Black,
                         color = textCol,
                         letterSpacing = (-0.5).sp
                     )
-                    Spacer(modifier = Modifier.height(2.dp))
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Box(
-                            modifier = Modifier
-                                .size(7.dp)
-                                .clip(CircleShape)
-                                .background(if (isConnected) AccentEmerald else Color.Gray)
-                        )
-                        Spacer(modifier = Modifier.width(6.dp))
-                        Text(
-                            text = if (isConnected) "Active: $deviceName" else "Offline",
-                            fontSize = 11.sp,
-                            color = if (isConnected) AccentEmerald else txtSec,
-                            fontWeight = FontWeight.Bold,
-                            maxLines = 1
-                        )
-                    }
                 }
             }
 
-            Spacer(modifier = Modifier.width(8.dp))
+            Spacer(modifier = Modifier.width(6.dp))
+
+            // Center Status Indicator Card / Pill
+            Card(
+                shape = RoundedCornerShape(12.dp),
+                colors = CardDefaults.cardColors(
+                    containerColor = if (isConnected) AccentEmerald.copy(alpha = 0.15f) else Color(0xFF262626)
+                ),
+                border = BorderStroke(
+                    1.dp,
+                    if (isConnected) AccentEmerald.copy(alpha = 0.4f) else Color.White.copy(alpha = 0.08f)
+                )
+            ) {
+                Row(
+                    modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .size(7.dp)
+                            .clip(CircleShape)
+                            .background(if (isConnected) AccentEmerald else AccentRose)
+                    )
+                    Spacer(modifier = Modifier.width(6.dp))
+                    Text(
+                        text = if (isConnected) "ONLINE" else "OFFLINE",
+                        fontSize = 11.sp,
+                        fontWeight = FontWeight.ExtraBold,
+                        color = if (isConnected) AccentEmerald else AccentRose,
+                        letterSpacing = 0.5.sp
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.width(6.dp))
 
             // Dynamic Dual-State Paired Device Action Card
             if (isConnected) {
