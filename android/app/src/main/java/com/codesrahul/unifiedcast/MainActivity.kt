@@ -10,6 +10,9 @@ import androidx.compose.animation.*
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.ui.input.pointer.pointerInput
@@ -1318,7 +1321,8 @@ data class TvAppItem(
     val name: String,
     val packageName: String,
     val iconSymbol: String,
-    val brandGradient: List<Color>
+    val brandGradient: List<Color>,
+    val iconUrl: String? = null
 )
 
 @Composable
@@ -1326,6 +1330,7 @@ fun TvAppLauncherTab(
     isDark: Boolean = true,
     onLaunchApp: (String) -> Unit
 ) {
+    val context = LocalContext.current
     val cardBg = if (isDark) CardBackground else LightCardBackground
     val textCol = if (isDark) TextPrimary else LightTextPrimary
     val borderCol = if (isDark) Color.White.copy(alpha = 0.12f) else Color.Black.copy(alpha = 0.08f)
@@ -1334,16 +1339,16 @@ fun TvAppLauncherTab(
     val isIndianRegion = timeZoneId.contains("Kolkata", ignoreCase = true) || timeZoneId.contains("Asia/Calcutta", ignoreCase = true) || timeZoneId.contains("IST", ignoreCase = true)
 
     val indianApps = listOf(
-        TvAppItem("JioCinema", "com.jio.media.ondemand", "J", listOf(Color(0xFFD80075), Color(0xFF800045))),
-        TvAppItem("Disney+ Hotstar", "in.startv.hotstar", "★", listOf(Color(0xFF113CCF), Color(0xFF0B1B6D))),
-        TvAppItem("Zee5", "com.graymatrix.did", "Z", listOf(Color(0xFF8B008B), Color(0xFF4B0082))),
-        TvAppItem("SonyLIV", "com.sonyliv", "S", listOf(Color(0xFFFF8C00), Color(0xFFD2691E))),
-        TvAppItem("YouTube", "com.google.android.youtube.tv", "▶", listOf(Color(0xFFFF0000), Color(0xFF990000))),
-        TvAppItem("Netflix", "com.netflix.ninja", "N", listOf(Color(0xFFE50914), Color(0xFF830A0F))),
-        TvAppItem("Prime Video", "com.amazon.amazonvideo.livingroom", "P", listOf(Color(0xFF00A8E1), Color(0xFF005B7F))),
+        TvAppItem("JioCinema", "com.jio.media.ondemand", "J", listOf(Color(0xFFD80075), Color(0xFF800045)), "https://assets.stickpng.com/images/64f0b2f567b578c7c97fbe13.png"),
+        TvAppItem("Disney+ Hotstar", "in.startv.hotstar", "★", listOf(Color(0xFF113CCF), Color(0xFF0B1B6D)), "https://upload.wikimedia.org/wikipedia/commons/1/1e/Disney%2B_Hotstar_logo.png"),
+        TvAppItem("Zee5", "com.graymatrix.did", "Z", listOf(Color(0xFF8B008B), Color(0xFF4B0082)), "https://upload.wikimedia.org/wikipedia/commons/5/5a/ZEE5_logo.png"),
+        TvAppItem("SonyLIV", "com.sonyliv", "S", listOf(Color(0xFFFF8C00), Color(0xFFD2691E)), "https://upload.wikimedia.org/wikipedia/commons/e/e1/SonyLIV_logo.png"),
+        TvAppItem("YouTube", "com.google.android.youtube.tv", "▶", listOf(Color(0xFFFF0000), Color(0xFF990000)), "https://upload.wikimedia.org/wikipedia/commons/e/ef/Youtube_logo.png"),
+        TvAppItem("Netflix", "com.netflix.ninja", "N", listOf(Color(0xFFE50914), Color(0xFF830A0F)), "https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_N_logo.svg"),
+        TvAppItem("Prime Video", "com.amazon.amazonvideo.livingroom", "P", listOf(Color(0xFF00A8E1), Color(0xFF005B7F)), "https://upload.wikimedia.org/wikipedia/commons/f/f1/Prime_Video.png"),
         TvAppItem("Sun NXT", "com.suntv.sunnxt", "☀", listOf(Color(0xFFFF4500), Color(0xFF8B0000))),
         TvAppItem("Aha", "in.aha.android.tv", "a", listOf(Color(0xFFFF5722), Color(0xFFBF360C))),
-        TvAppItem("Spotify", "com.spotify.tv.android", "♫", listOf(Color(0xFF1DB954), Color(0xFF0F5D2A))),
+        TvAppItem("Spotify", "com.spotify.tv.android", "♫", listOf(Color(0xFF1DB954), Color(0xFF0F5D2A)), "https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg"),
         TvAppItem("Apple TV+", "com.apple.atve.amazon.appletv", "", listOf(Color(0xFF333333), Color(0xFF111111))),
         TvAppItem("Settings", "com.android.tv.settings", "⚙", listOf(Color(0xFF64748B), Color(0xFF334155)))
     )
@@ -1390,6 +1395,15 @@ fun TvAppLauncherTab(
                     label = "AppScale"
                 )
 
+                // Try to load real app icon installed locally or on TV
+                val localAppIconDrawable = remember(app.packageName) {
+                    try {
+                        context.packageManager.getApplicationIcon(app.packageName)
+                    } catch (e: Exception) {
+                        null
+                    }
+                }
+
                 Card(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -1421,12 +1435,31 @@ fun TvAppLauncherTab(
                                 .shadow(6.dp, CircleShape),
                             contentAlignment = Alignment.Center
                         ) {
-                            Text(
-                                text = app.iconSymbol,
-                                fontSize = 20.sp,
-                                fontWeight = FontWeight.Black,
-                                color = Color.White
-                            )
+                            if (localAppIconDrawable != null) {
+                                val imageBitmap = remember(localAppIconDrawable) {
+                                    val bmp = android.graphics.Bitmap.createBitmap(
+                                        localAppIconDrawable.intrinsicWidth.coerceAtLeast(1),
+                                        localAppIconDrawable.intrinsicHeight.coerceAtLeast(1),
+                                        android.graphics.Bitmap.Config.ARGB_8888
+                                    )
+                                    val canvas = android.graphics.Canvas(bmp)
+                                    localAppIconDrawable.setBounds(0, 0, canvas.width, canvas.height)
+                                    localAppIconDrawable.draw(canvas)
+                                    bmp.asImageBitmap()
+                                }
+                                Image(
+                                    bitmap = imageBitmap,
+                                    contentDescription = app.name,
+                                    modifier = Modifier.fillMaxSize().clip(CircleShape)
+                                )
+                            } else {
+                                Text(
+                                    text = app.iconSymbol,
+                                    fontSize = 20.sp,
+                                    fontWeight = FontWeight.Black,
+                                    color = Color.White
+                                )
+                            }
                         }
 
                         Spacer(modifier = Modifier.width(12.dp))
@@ -1441,10 +1474,10 @@ fun TvAppLauncherTab(
                             )
                             Spacer(modifier = Modifier.height(2.dp))
                             Text(
-                                text = "Launch App",
+                                text = if (localAppIconDrawable != null) "Installed • Launch" else "Launch App",
                                 fontSize = 10.sp,
                                 fontWeight = FontWeight.Medium,
-                                color = AccentCyan
+                                color = if (localAppIconDrawable != null) AccentEmerald else AccentCyan
                             )
                         }
                     }
