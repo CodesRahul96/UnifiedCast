@@ -255,10 +255,13 @@ class MainActivity : ComponentActivity() {
                                 }
                                 .padding(12.dp)
                         ) {
+                            val tabOrder = remember { listOf(2, 1, 0, 3, 4) }
                             AnimatedContent(
                                 targetState = selectedTab,
                                 transitionSpec = {
-                                    if (targetState > initialState) {
+                                    val targetIndex = tabOrder.indexOf(targetState)
+                                    val initialIndex = tabOrder.indexOf(initialState)
+                                    if (targetIndex > initialIndex) {
                                         (slideInHorizontally { width -> width } + fadeIn()).togetherWith(
                                             slideOutHorizontally { width -> -width } + fadeOut()
                                         )
