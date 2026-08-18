@@ -310,7 +310,8 @@ class MainActivity : ComponentActivity() {
                                         onVibrationChanged = { enabled ->
                                             isVibrationEnabled = enabled
                                             prefs.edit().putBoolean("vibration_enabled", enabled).apply()
-                                        }
+                                        },
+                                        onShowGuide = { showUserManual = true }
                                     )
                                 }
                             }
@@ -1762,7 +1763,8 @@ fun FireTvRemoteSettingsScreen(
     useSwipeControl: Boolean,
     isVibrationEnabled: Boolean,
     onSwipeControlChanged: (Boolean) -> Unit,
-    onVibrationChanged: (Boolean) -> Unit
+    onVibrationChanged: (Boolean) -> Unit,
+    onShowGuide: () -> Unit = {}
 ) {
     Column(
         modifier = Modifier
@@ -1770,6 +1772,55 @@ fun FireTvRemoteSettingsScreen(
             .padding(horizontal = 8.dp, vertical = 12.dp)
     ) {
         Spacer(modifier = Modifier.height(8.dp))
+
+        // Open App Setup Guide Button
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable { onShowGuide() },
+            shape = RoundedCornerShape(16.dp),
+            colors = CardDefaults.cardColors(containerColor = AccentCyan.copy(alpha = 0.15f)),
+            border = BorderStroke(1.dp, AccentCyan.copy(alpha = 0.4f))
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 14.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Box(
+                        modifier = Modifier
+                            .size(36.dp)
+                            .clip(CircleShape)
+                            .background(AccentCyan.copy(alpha = 0.2f)),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text("📖", fontSize = 18.sp)
+                    }
+                    Spacer(modifier = Modifier.width(12.dp))
+                    Column {
+                        Text(
+                            text = "View App Setup Guide",
+                            fontSize = 15.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Color.White
+                        )
+                        Text(
+                            text = "Learn how to pair TV & use gestures",
+                            fontSize = 11.sp,
+                            color = TextSecondary
+                        )
+                    }
+                }
+                Text("OPEN", fontSize = 12.sp, fontWeight = FontWeight.Black, color = AccentCyan)
+            }
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+        Divider(color = Color(0xFF262626), thickness = 1.dp)
+        Spacer(modifier = Modifier.height(16.dp))
 
         // Navigation Style Header
         Row(verticalAlignment = Alignment.CenterVertically) {
