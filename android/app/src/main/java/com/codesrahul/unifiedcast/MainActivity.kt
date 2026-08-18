@@ -140,6 +140,30 @@ class MainActivity : ComponentActivity() {
                     }
                 }
 
+                // Firebase Remote Config & Analytics Initialization
+                var remoteAppVersion by remember { mutableStateOf("v1.0.0") }
+                val remoteConfig = remember { com.google.firebase.remoteconfig.FirebaseRemoteConfig.getInstance() }
+
+                LaunchedEffect(Unit) {
+                    try {
+                        val configSettings = com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings.Builder()
+                            .setMinimumFetchIntervalInSeconds(3600)
+                            .build()
+                        remoteConfig.setConfigSettingsAsync(configSettings)
+                        remoteConfig.setDefaultsAsync(mapOf("latest_app_version" to "1.0.0"))
+                        remoteConfig.fetchAndActivate().addOnCompleteListener { task ->
+                            if (task.isSuccessful) {
+                                val fetchedVersion = remoteConfig.getString("latest_app_version")
+                                if (fetchedVersion.isNotBlank()) {
+                                    remoteAppVersion = "v$fetchedVersion"
+                                }
+                            }
+                        }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                }
+
                 // Auto-connect to last saved device on app startup
                 LaunchedEffect(Unit) {
                     val savedIp = prefs.getString("last_tv_ip", null)
