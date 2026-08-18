@@ -6,9 +6,10 @@ INJECTED from /mnt/6C4CC5C54CC589F2/Projects/UnifiedCast/android/app/src/main/An
 INJECTED from /mnt/6C4CC5C54CC589F2/Projects/UnifiedCast/android/app/src/main/AndroidManifest.xml:2:1-46:12
 MERGED from [androidx.compose.material3:material3-android:1.2.0] /home/victus/.gradle/caches/8.9/transforms/1c8b48d6fa8313e3305cfd62c4d2e902/transformed/material3-release/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.activity:activity-compose:1.8.2] /home/victus/.gradle/caches/8.9/transforms/ff91d4d4c6468a5e5d5cfa565403ff35/transformed/activity-compose-1.8.2/AndroidManifest.xml:2:1-7:12
-MERGED from [androidx.compose.animation:animation-core-android:1.6.1] /home/victus/.gradle/caches/8.9/transforms/5e9acca69d39382bf8f8a79e15dcdc81/transformed/animation-core-release/AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.compose.material:material-icons-core-android:1.6.1] /home/victus/.gradle/caches/8.9/transforms/2ac3310c5735ee1cedb28e0c1a4f714e/transformed/material-icons-core-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.material:material-icons-extended-android:1.6.1] /home/victus/.gradle/caches/8.9/transforms/0dd785cc29392dc8c362cb00cec393eb/transformed/material-icons-extended-release/AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.compose.material:material-ripple-android:1.6.1] /home/victus/.gradle/caches/8.9/transforms/d59f46298f0a89df6b2b0f94a51e4a46/transformed/material-ripple-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.animation:animation-core-android:1.6.1] /home/victus/.gradle/caches/8.9/transforms/5e9acca69d39382bf8f8a79e15dcdc81/transformed/animation-core-release/AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.compose.animation:animation-android:1.6.1] /home/victus/.gradle/caches/8.9/transforms/71587115498866d86bf2f5136a78e2ec/transformed/animation-release/AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.compose.foundation:foundation-layout-android:1.6.1] /home/victus/.gradle/caches/8.9/transforms/d8b20ea7760441b9b2f44d9334703387/transformed/foundation-layout-release/AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.compose.foundation:foundation-android:1.6.1] /home/victus/.gradle/caches/8.9/transforms/b7a987ea9d96787113658de44cf3db18/transformed/foundation-release/AndroidManifest.xml:2:1-7:12
@@ -254,12 +255,14 @@ MERGED from [androidx.compose.material3:material3-android:1.2.0] /home/victus/.g
 MERGED from [androidx.compose.material3:material3-android:1.2.0] /home/victus/.gradle/caches/8.9/transforms/1c8b48d6fa8313e3305cfd62c4d2e902/transformed/material3-release/AndroidManifest.xml:20:5-44
 MERGED from [androidx.activity:activity-compose:1.8.2] /home/victus/.gradle/caches/8.9/transforms/ff91d4d4c6468a5e5d5cfa565403ff35/transformed/activity-compose-1.8.2/AndroidManifest.xml:5:5-44
 MERGED from [androidx.activity:activity-compose:1.8.2] /home/victus/.gradle/caches/8.9/transforms/ff91d4d4c6468a5e5d5cfa565403ff35/transformed/activity-compose-1.8.2/AndroidManifest.xml:5:5-44
-MERGED from [androidx.compose.animation:animation-core-android:1.6.1] /home/victus/.gradle/caches/8.9/transforms/5e9acca69d39382bf8f8a79e15dcdc81/transformed/animation-core-release/AndroidManifest.xml:5:5-44
-MERGED from [androidx.compose.animation:animation-core-android:1.6.1] /home/victus/.gradle/caches/8.9/transforms/5e9acca69d39382bf8f8a79e15dcdc81/transformed/animation-core-release/AndroidManifest.xml:5:5-44
 MERGED from [androidx.compose.material:material-icons-core-android:1.6.1] /home/victus/.gradle/caches/8.9/transforms/2ac3310c5735ee1cedb28e0c1a4f714e/transformed/material-icons-core-release/AndroidManifest.xml:5:5-44
 MERGED from [androidx.compose.material:material-icons-core-android:1.6.1] /home/victus/.gradle/caches/8.9/transforms/2ac3310c5735ee1cedb28e0c1a4f714e/transformed/material-icons-core-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.material:material-icons-extended-android:1.6.1] /home/victus/.gradle/caches/8.9/transforms/0dd785cc29392dc8c362cb00cec393eb/transformed/material-icons-extended-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.material:material-icons-extended-android:1.6.1] /home/victus/.gradle/caches/8.9/transforms/0dd785cc29392dc8c362cb00cec393eb/transformed/material-icons-extended-release/AndroidManifest.xml:5:5-44
 MERGED from [androidx.compose.material:material-ripple-android:1.6.1] /home/victus/.gradle/caches/8.9/transforms/d59f46298f0a89df6b2b0f94a51e4a46/transformed/material-ripple-release/AndroidManifest.xml:5:5-44
 MERGED from [androidx.compose.material:material-ripple-android:1.6.1] /home/victus/.gradle/caches/8.9/transforms/d59f46298f0a89df6b2b0f94a51e4a46/transformed/material-ripple-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.animation:animation-core-android:1.6.1] /home/victus/.gradle/caches/8.9/transforms/5e9acca69d39382bf8f8a79e15dcdc81/transformed/animation-core-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.animation:animation-core-android:1.6.1] /home/victus/.gradle/caches/8.9/transforms/5e9acca69d39382bf8f8a79e15dcdc81/transformed/animation-core-release/AndroidManifest.xml:5:5-44
 MERGED from [androidx.compose.animation:animation-android:1.6.1] /home/victus/.gradle/caches/8.9/transforms/71587115498866d86bf2f5136a78e2ec/transformed/animation-release/AndroidManifest.xml:5:5-44
 MERGED from [androidx.compose.animation:animation-android:1.6.1] /home/victus/.gradle/caches/8.9/transforms/71587115498866d86bf2f5136a78e2ec/transformed/animation-release/AndroidManifest.xml:5:5-44
 MERGED from [androidx.compose.foundation:foundation-layout-android:1.6.1] /home/victus/.gradle/caches/8.9/transforms/d8b20ea7760441b9b2f44d9334703387/transformed/foundation-layout-release/AndroidManifest.xml:5:5-44

@@ -6,8 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
-import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
+import androidx.compose.material.icons.automirrored.filled.VolumeOff
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -28,7 +27,9 @@ fun MediaControlsTab(
     onKeyClick: (Int) -> Unit
 ) {
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(vertical = 12.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceEvenly
     ) {
@@ -40,13 +41,16 @@ fun MediaControlsTab(
             letterSpacing = 1.sp
         )
 
-        // Primary Playback Controls Row
+        // Primary Playback Controls Row (Rewind, Play/Pause, FastForward)
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            MediaControlButton(icon = Icons.AutoMirrored.Filled.KeyboardArrowLeft, label = "REWIND") {
+            MediaControlButton(
+                icon = Icons.Default.FastRewind,
+                label = "REWIND"
+            ) {
                 onKeyClick(TvKeyCodes.KEYCODE_MEDIA_REWIND)
             }
 
@@ -66,15 +70,40 @@ fun MediaControlsTab(
                 )
             }
 
-            MediaControlButton(icon = Icons.AutoMirrored.Filled.KeyboardArrowRight, label = "FORWARD") {
+            MediaControlButton(
+                icon = Icons.Default.FastForward,
+                label = "FORWARD"
+            ) {
                 onKeyClick(TvKeyCodes.KEYCODE_MEDIA_FAST_FORWARD)
+            }
+        }
+
+        // Secondary Control Row (Previous Track & Next Track)
+        Row(
+            modifier = Modifier.fillMaxWidth(0.7f),
+            horizontalArrangement = Arrangement.SpaceEvenly,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            MediaControlButton(
+                icon = Icons.Default.SkipPrevious,
+                label = "PREV"
+            ) {
+                onKeyClick(TvKeyCodes.KEYCODE_MEDIA_PREVIOUS)
+            }
+
+            MediaControlButton(
+                icon = Icons.Default.SkipNext,
+                label = "NEXT"
+            ) {
+                onKeyClick(TvKeyCodes.KEYCODE_MEDIA_NEXT)
             }
         }
 
         // Channel & Volume Control Section
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceEvenly
+            horizontalArrangement = Arrangement.SpaceEvenly,
+            verticalAlignment = Alignment.CenterVertically
         ) {
             // Volume Controls Pill
             Card(
@@ -82,7 +111,7 @@ fun MediaControlsTab(
                 colors = CardDefaults.cardColors(containerColor = SurfaceDark)
             ) {
                 Column(
-                    modifier = Modifier.padding(12.dp),
+                    modifier = Modifier.padding(horizontal = 14.dp, vertical = 10.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     IconButton(onClick = { onKeyClick(TvKeyCodes.KEYCODE_VOLUME_UP) }) {
@@ -90,21 +119,21 @@ fun MediaControlsTab(
                     }
                     Text("VOL", fontSize = 12.sp, fontWeight = FontWeight.Bold, color = AccentCyan)
                     IconButton(onClick = { onKeyClick(TvKeyCodes.KEYCODE_VOLUME_DOWN) }) {
-                        Icon(Icons.Default.KeyboardArrowDown, contentDescription = "Vol Down", tint = Color.White)
+                        Icon(Icons.Default.Remove, contentDescription = "Vol Down", tint = Color.White)
                     }
                 }
             }
 
-            // Mute & Stop Center Stack
+            // Mute Center Stack
             Column(
-                verticalArrangement = Arrangement.spacedBy(16.dp),
+                verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                MediaControlButton(icon = Icons.Default.Clear, label = "MUTE") {
+                MediaControlButton(
+                    icon = Icons.AutoMirrored.Filled.VolumeOff,
+                    label = "MUTE"
+                ) {
                     onKeyClick(TvKeyCodes.KEYCODE_VOLUME_MUTE)
-                }
-                MediaControlButton(icon = Icons.Default.Close, label = "STOP") {
-                    onKeyClick(TvKeyCodes.KEYCODE_MEDIA_PLAY_PAUSE)
                 }
             }
 
@@ -114,7 +143,7 @@ fun MediaControlsTab(
                 colors = CardDefaults.cardColors(containerColor = SurfaceDark)
             ) {
                 Column(
-                    modifier = Modifier.padding(12.dp),
+                    modifier = Modifier.padding(horizontal = 14.dp, vertical = 10.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     IconButton(onClick = { onKeyClick(TvKeyCodes.KEYCODE_CHANNEL_UP) }) {
@@ -138,13 +167,18 @@ fun MediaControlButton(
 ) {
     Surface(
         modifier = Modifier
-            .size(56.dp)
+            .size(58.dp)
             .clip(CircleShape)
             .clickable { onClick() },
         color = SurfaceDark
     ) {
         Box(contentAlignment = Alignment.Center) {
-            Icon(imageVector = icon, contentDescription = label, tint = Color.White, modifier = Modifier.size(24.dp))
+            Icon(
+                imageVector = icon,
+                contentDescription = label,
+                tint = Color.White,
+                modifier = Modifier.size(26.dp)
+            )
         }
     }
 }
