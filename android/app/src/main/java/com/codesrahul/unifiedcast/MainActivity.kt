@@ -94,12 +94,12 @@ class MainActivity : ComponentActivity() {
                 val context = LocalContext.current
                 val coroutineScope = rememberCoroutineScope()
 
-                val isDark = isSystemInDarkTheme()
-                val bg = if (isDark) DarkBackground else LightBackground
-                val surface = if (isDark) SurfaceDark else LightSurface
-                val cardBg = if (isDark) CardBackground else LightCardBackground
-                val txtPrimary = if (isDark) TextPrimary else LightTextPrimary
-                val txtSecondary = if (isDark) TextSecondary else LightTextSecondary
+                val isDark = true
+                val bg = DarkBackground
+                val surface = SurfaceDark
+                val cardBg = CardBackground
+                val txtPrimary = TextPrimary
+                val txtSecondary = TextSecondary
 
                 val prefs = remember { context.getSharedPreferences("unifiedcast_prefs", Context.MODE_PRIVATE) }
                 var showSplash by remember { mutableStateOf(true) }
@@ -1505,23 +1505,19 @@ fun SplashScreenOverlay() {
         ) {
             Box(
                 modifier = Modifier
-                    .size(110.dp)
-                    .clip(RoundedCornerShape(28.dp))
-                    .background(
-                        Brush.horizontalGradient(
-                            listOf(AccentCyan.copy(alpha = 0.2f), AccentPurple.copy(alpha = 0.2f))
-                        )
-                    )
-                    .border(2.dp, AccentCyan, RoundedCornerShape(28.dp))
-                    .shadow(24.dp, RoundedCornerShape(28.dp)),
+                    .size(100.dp)
+                    .clip(CircleShape)
+                    .background(Color(0xFF1E1E1E))
+                    .border(1.5.dp, Color.White.copy(alpha = 0.15f), CircleShape)
+                    .shadow(16.dp, CircleShape),
                 contentAlignment = Alignment.Center
             ) {
-                androidx.compose.foundation.Image(
-                    painter = androidx.compose.ui.res.painterResource(id = R.drawable.app_logo),
+                Image(
+                    painter = androidx.compose.ui.res.painterResource(id = R.drawable.ic_launcher_foreground),
                     contentDescription = "App Logo",
                     modifier = Modifier
-                        .size(86.dp)
-                        .clip(RoundedCornerShape(20.dp))
+                        .size(88.dp)
+                        .clip(CircleShape)
                 )
             }
 
