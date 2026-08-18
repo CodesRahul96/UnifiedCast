@@ -1,6 +1,7 @@
 package com.codesrahul.unifiedcast.ui.components
 
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.border
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -11,7 +12,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -20,11 +20,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.codesrahul.unifiedcast.ui.theme.AccentCyan
-import com.codesrahul.unifiedcast.ui.theme.DarkBackground
 
 @Composable
 fun FloatingBottomNavBar(
@@ -50,7 +47,8 @@ fun FloatingBottomNavBar(
         Surface(
             modifier = Modifier
                 .fillMaxWidth()
-                .clip(RoundedCornerShape(36.dp)),
+                .clip(RoundedCornerShape(36.dp))
+                .border(1.5.dp, AccentCyan.copy(alpha = 0.35f), RoundedCornerShape(36.dp)),
             color = navBg,
             tonalElevation = 8.dp
         ) {
@@ -73,6 +71,11 @@ fun FloatingBottomNavBar(
                             .clip(RoundedCornerShape(24.dp))
                             .background(
                                 if (selected) AccentCyan.copy(alpha = 0.2f) else Color.Transparent
+                            )
+                            .border(
+                                width = if (selected) 1.dp else 0.dp,
+                                color = if (selected) AccentCyan.copy(alpha = 0.6f) else Color.Transparent,
+                                shape = RoundedCornerShape(24.dp)
                             )
                             .clickable(
                                 interactionSource = remember { MutableInteractionSource() },

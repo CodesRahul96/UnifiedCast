@@ -194,7 +194,7 @@ class MainActivity : ComponentActivity() {
                                 .padding(horizontal = 12.dp, vertical = 6.dp)
                                 .clip(RoundedCornerShape(24.dp))
                                 .background(SurfaceDark.copy(alpha = 0.85f))
-                                .border(1.dp, Color.White.copy(alpha = 0.08f), RoundedCornerShape(24.dp))
+                                .border(1.5.dp, AccentCyan.copy(alpha = 0.35f), RoundedCornerShape(24.dp))
                                 .pointerInput(selectedTab) {
                                     var totalDrag = 0f
                                     val tabOrder = listOf(2, 1, 0, 3, 4)

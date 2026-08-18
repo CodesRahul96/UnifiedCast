@@ -1,6 +1,8 @@
 package com.codesrahul.unifiedcast.ui.components
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -59,6 +61,7 @@ fun MediaControlsTab(
                     .size(72.dp)
                     .clip(CircleShape)
                     .background(AccentCyan)
+                    .border(2.dp, AccentCyan.copy(alpha = 0.8f), CircleShape)
                     .clickable { onKeyClick(TvKeyCodes.KEYCODE_MEDIA_PLAY_PAUSE) },
                 contentAlignment = Alignment.Center
             ) {
@@ -108,7 +111,8 @@ fun MediaControlsTab(
             // Volume Controls Pill
             Card(
                 shape = RoundedCornerShape(24.dp),
-                colors = CardDefaults.cardColors(containerColor = SurfaceDark)
+                colors = CardDefaults.cardColors(containerColor = SurfaceDark),
+                border = BorderStroke(1.5.dp, AccentCyan.copy(alpha = 0.35f))
             ) {
                 Column(
                     modifier = Modifier.padding(horizontal = 14.dp, vertical = 10.dp),
@@ -140,7 +144,8 @@ fun MediaControlsTab(
             // Channel Controls Pill
             Card(
                 shape = RoundedCornerShape(24.dp),
-                colors = CardDefaults.cardColors(containerColor = SurfaceDark)
+                colors = CardDefaults.cardColors(containerColor = SurfaceDark),
+                border = BorderStroke(1.5.dp, AccentCyan.copy(alpha = 0.35f))
             ) {
                 Column(
                     modifier = Modifier.padding(horizontal = 14.dp, vertical = 10.dp),
@@ -169,6 +174,7 @@ fun MediaControlButton(
         modifier = Modifier
             .size(58.dp)
             .clip(CircleShape)
+            .border(1.5.dp, AccentCyan.copy(alpha = 0.35f), CircleShape)
             .clickable { onClick() },
         color = SurfaceDark
     ) {

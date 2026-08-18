@@ -37,6 +37,7 @@ fun TopHeader(
             .padding(horizontal = 12.dp, vertical = 6.dp),
         shape = RoundedCornerShape(20.dp),
         colors = CardDefaults.cardColors(containerColor = SurfaceDark),
+        border = BorderStroke(1.5.dp, AccentCyan.copy(alpha = 0.35f)),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
         Row(
@@ -53,7 +54,7 @@ fun TopHeader(
                         .size(34.dp)
                         .clip(CircleShape)
                         .background(AccentCyan.copy(alpha = 0.15f))
-                        .border(1.dp, AccentCyan.copy(alpha = 0.4f), CircleShape),
+                        .border(1.5.dp, AccentCyan.copy(alpha = 0.5f), CircleShape),
                     contentAlignment = Alignment.Center
                 ) {
                     Icon(
@@ -81,8 +82,8 @@ fun TopHeader(
                     .clip(RoundedCornerShape(16.dp))
                     .background(if (isConnected) AccentEmerald.copy(alpha = 0.12f) else AccentRose.copy(alpha = 0.12f))
                     .border(
-                        1.dp,
-                        if (isConnected) AccentEmerald.copy(alpha = 0.35f) else AccentRose.copy(alpha = 0.35f),
+                        1.5.dp,
+                        if (isConnected) AccentEmerald.copy(alpha = 0.5f) else AccentRose.copy(alpha = 0.5f),
                         RoundedCornerShape(16.dp)
                     )
                     .padding(horizontal = 10.dp, vertical = 4.dp),
@@ -113,7 +114,7 @@ fun TopHeader(
                     .clickable { onPairClick() },
                 shape = RoundedCornerShape(16.dp),
                 colors = CardDefaults.cardColors(containerColor = SurfaceDark),
-                border = BorderStroke(1.dp, Color.White.copy(alpha = 0.10f))
+                border = BorderStroke(1.5.dp, AccentCyan.copy(alpha = 0.4f))
             ) {
                 Row(
                     modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp),
