@@ -418,130 +418,141 @@ fun TopHeader(
     val textCol = if (isDark) TextPrimary else LightTextPrimary
     val txtSec = if (isDark) TextSecondary else LightTextSecondary
 
-    Box(
+    Card(
         modifier = Modifier
             .fillMaxWidth()
             .statusBarsPadding()
-            .padding(horizontal = 12.dp, vertical = 6.dp)
-            .clip(RoundedCornerShape(20.dp))
-            .background(if (isDark) navBgColor else HeaderGradientLight)
-            .border(1.dp, if (isDark) Color.White.copy(alpha = 0.08f) else Color.Black.copy(alpha = 0.06f), RoundedCornerShape(20.dp))
-            .padding(horizontal = 16.dp, vertical = 10.dp)
+            .padding(horizontal = 12.dp, vertical = 6.dp),
+        shape = RoundedCornerShape(20.dp),
+        colors = CardDefaults.cardColors(containerColor = if (isDark) navBgColor else Color(0xFFF1F5F9)),
+        border = BorderStroke(1.dp, if (isDark) Color.White.copy(alpha = 0.08f) else Color.Black.copy(alpha = 0.06f))
     ) {
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 14.dp, vertical = 10.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // App Branding & Live Connectivity Subtitle
-            Column(modifier = Modifier.weight(1f)) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
+            // App Branding Title Card
+            Card(
+                shape = RoundedCornerShape(14.dp),
+                colors = CardDefaults.cardColors(containerColor = if (isDark) Color(0xFF262626) else Color.White),
+                border = BorderStroke(1.dp, if (isDark) Color.White.copy(alpha = 0.06f) else Color.Black.copy(alpha = 0.04f))
+            ) {
+                Column(
+                    modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp)
+                ) {
                     Text(
                         text = "UnifiedCast",
-                        fontSize = 20.sp,
+                        fontSize = 18.sp,
                         fontWeight = FontWeight.Black,
-                        color = Color.White,
+                        color = textCol,
                         letterSpacing = (-0.5).sp
                     )
-                }
-                Spacer(modifier = Modifier.height(2.dp))
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Box(
-                        modifier = Modifier
-                            .size(7.dp)
-                            .clip(CircleShape)
-                            .background(if (isConnected) AccentEmerald else Color.Gray)
-                    )
-                    Spacer(modifier = Modifier.width(6.dp))
-                    Text(
-                        text = if (isConnected) "Active: $deviceName" else "Offline • Not Connected",
-                        fontSize = 11.sp,
-                        color = if (isConnected) AccentEmerald else txtSec,
-                        fontWeight = FontWeight.Bold,
-                        maxLines = 1
-                    )
+                    Spacer(modifier = Modifier.height(2.dp))
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Box(
+                            modifier = Modifier
+                                .size(7.dp)
+                                .clip(CircleShape)
+                                .background(if (isConnected) AccentEmerald else Color.Gray)
+                        )
+                        Spacer(modifier = Modifier.width(6.dp))
+                        Text(
+                            text = if (isConnected) "Active: $deviceName" else "Offline",
+                            fontSize = 11.sp,
+                            color = if (isConnected) AccentEmerald else txtSec,
+                            fontWeight = FontWeight.Bold,
+                            maxLines = 1
+                        )
+                    }
                 }
             }
 
             Spacer(modifier = Modifier.width(8.dp))
 
-            // Dynamic Dual-State Interactive Header Control
+            // Dynamic Dual-State Paired Device Action Card
             if (isConnected) {
-                // Connected Pill Card with Device Name & Disconnect Tap Action
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier
-                        .clip(RoundedCornerShape(16.dp))
-                        .background(AccentEmerald.copy(alpha = 0.15f))
-                        .border(1.dp, AccentEmerald.copy(alpha = 0.4f), RoundedCornerShape(16.dp))
-                        .padding(horizontal = 10.dp, vertical = 6.dp)
+                // Connected Paired Card with Device Info & Disconnect Button
+                Card(
+                    shape = RoundedCornerShape(14.dp),
+                    colors = CardDefaults.cardColors(containerColor = AccentEmerald.copy(alpha = 0.15f)),
+                    border = BorderStroke(1.dp, AccentEmerald.copy(alpha = 0.4f))
                 ) {
-                    Box(
-                        modifier = Modifier
-                            .size(24.dp)
-                            .clip(CircleShape)
-                            .background(AccentEmerald)
-                            .clickable { onPairClick() },
-                        contentAlignment = Alignment.Center
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.padding(horizontal = 10.dp, vertical = 8.dp)
                     ) {
-                        Text("📺", fontSize = 12.sp)
-                    }
+                        Box(
+                            modifier = Modifier
+                                .size(24.dp)
+                                .clip(CircleShape)
+                                .background(AccentEmerald)
+                                .clickable { onPairClick() },
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text("📺", fontSize = 12.sp)
+                        }
 
-                    Spacer(modifier = Modifier.width(6.dp))
+                        Spacer(modifier = Modifier.width(6.dp))
 
-                    Text(
-                        text = deviceName,
-                        fontSize = 11.sp,
-                        fontWeight = FontWeight.ExtraBold,
-                        color = textCol,
-                        maxLines = 1,
-                        modifier = Modifier.widthIn(max = 90.dp)
-                    )
-
-                    Spacer(modifier = Modifier.width(6.dp))
-
-                    // Red Disconnect Chip Button
-                    Box(
-                        modifier = Modifier
-                            .clip(RoundedCornerShape(10.dp))
-                            .background(AccentRose.copy(alpha = 0.85f))
-                            .clickable { onDisconnectClick() }
-                            .padding(horizontal = 8.dp, vertical = 4.dp)
-                    ) {
                         Text(
-                            text = "DISCONNECT",
-                            fontSize = 9.sp,
-                            fontWeight = FontWeight.Black,
-                            color = Color.White
+                            text = deviceName,
+                            fontSize = 11.sp,
+                            fontWeight = FontWeight.ExtraBold,
+                            color = textCol,
+                            maxLines = 1,
+                            modifier = Modifier.widthIn(max = 90.dp)
                         )
+
+                        Spacer(modifier = Modifier.width(6.dp))
+
+                        // Red Disconnect Chip Button
+                        Box(
+                            modifier = Modifier
+                                .clip(RoundedCornerShape(8.dp))
+                                .background(AccentRose.copy(alpha = 0.85f))
+                                .clickable { onDisconnectClick() }
+                                .padding(horizontal = 8.dp, vertical = 4.dp)
+                        ) {
+                            Text(
+                                text = "DISCONNECT",
+                                fontSize = 9.sp,
+                                fontWeight = FontWeight.Black,
+                                color = Color.White
+                            )
+                        }
                     }
                 }
             } else {
-                // PAIR DEVICE Card Button
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier
-                        .clip(RoundedCornerShape(16.dp))
-                        .background(Color(0xFF2A2A2A))
-                        .border(1.dp, Color.White.copy(alpha = 0.15f), RoundedCornerShape(16.dp))
-                        .shadow(4.dp, RoundedCornerShape(16.dp))
-                        .clickable { onPairClick() }
-                        .padding(horizontal = 12.dp, vertical = 8.dp)
+                // PAIR DEVICE Action Card
+                Card(
+                    modifier = Modifier.clickable { onPairClick() },
+                    shape = RoundedCornerShape(14.dp),
+                    colors = CardDefaults.cardColors(containerColor = Color(0xFF2A2A2A)),
+                    border = BorderStroke(1.dp, Color.White.copy(alpha = 0.15f)),
+                    elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
                 ) {
-                    Icon(
-                        imageVector = Icons.Default.Star,
-                        contentDescription = "Pair",
-                        tint = Color.White,
-                        modifier = Modifier.size(16.dp)
-                    )
-                    Spacer(modifier = Modifier.width(6.dp))
-                    Text(
-                        text = "PAIR DEVICE",
-                        fontSize = 11.sp,
-                        fontWeight = FontWeight.Black,
-                        color = Color.White,
-                        letterSpacing = 0.3.sp
-                    )
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.padding(horizontal = 14.dp, vertical = 10.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Star,
+                            contentDescription = "Pair",
+                            tint = Color.White,
+                            modifier = Modifier.size(16.dp)
+                        )
+                        Spacer(modifier = Modifier.width(6.dp))
+                        Text(
+                            text = "PAIR DEVICE",
+                            fontSize = 11.sp,
+                            fontWeight = FontWeight.Black,
+                            color = Color.White,
+                            letterSpacing = 0.3.sp
+                        )
+                    }
                 }
             }
         }
