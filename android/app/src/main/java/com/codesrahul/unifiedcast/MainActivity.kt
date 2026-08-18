@@ -1969,7 +1969,7 @@ fun FireTvRemoteSettingsScreen(
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Text("App Version", fontSize = 13.sp, color = TextSecondary)
-                    Text("v1.0.0 (Build 1)", fontSize = 13.sp, fontWeight = FontWeight.Bold, color = AccentCyan)
+                    Text("v1.0.0", fontSize = 13.sp, fontWeight = FontWeight.Bold, color = AccentCyan)
                 }
 
                 Spacer(modifier = Modifier.height(6.dp))
