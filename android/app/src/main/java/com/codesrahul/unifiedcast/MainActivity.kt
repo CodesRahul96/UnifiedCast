@@ -36,6 +36,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.Create
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.KeyboardArrowRight
@@ -1814,6 +1815,68 @@ fun FireTvRemoteSettingsScreen(
                     uncheckedTrackColor = Color(0xFF333333)
                 )
             )
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+        Divider(color = Color(0xFF262626), thickness = 1.dp)
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // About & Version Information Card
+        Card(
+            modifier = Modifier.fillMaxWidth(),
+            shape = RoundedCornerShape(16.dp),
+            colors = CardDefaults.cardColors(containerColor = Color(0xFF1E1E1E)),
+            border = BorderStroke(1.dp, Color.White.copy(alpha = 0.08f))
+        ) {
+            Column(
+                modifier = Modifier.padding(16.dp)
+            ) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Icon(
+                        imageVector = Icons.Default.Info,
+                        contentDescription = "About",
+                        tint = AccentCyan,
+                        modifier = Modifier.size(20.dp)
+                    )
+                    Spacer(modifier = Modifier.width(10.dp))
+                    Text(
+                        text = "About UnifiedCast",
+                        fontSize = 15.sp,
+                        fontWeight = FontWeight.ExtraBold,
+                        color = Color.White
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(12.dp))
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text("App Version", fontSize = 13.sp, color = TextSecondary)
+                    Text("v1.0.0 (Build 1)", fontSize = 13.sp, fontWeight = FontWeight.Bold, color = AccentCyan)
+                }
+
+                Spacer(modifier = Modifier.height(6.dp))
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text("Native Engine", fontSize = 13.sp, color = TextSecondary)
+                    Text("v1.0.0-cpp", fontSize = 13.sp, fontWeight = FontWeight.Bold, color = AccentEmerald)
+                }
+
+                Spacer(modifier = Modifier.height(6.dp))
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text("Target Architecture", fontSize = 13.sp, color = TextSecondary)
+                    Text(android.os.Build.SUPPORTED_ABIS.firstOrNull() ?: "arm64-v8a", fontSize = 13.sp, fontWeight = FontWeight.Medium, color = Color.White)
+                }
+            }
         }
     }
 }
