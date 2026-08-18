@@ -1,2 +1,0 @@
-ninja: Entering directory `/mnt/6C4CC5C54CC589F2/Projects/UnifiedCast/android/app/.cxx/Debug/1832614v/x86'
-ninja: no work to do.

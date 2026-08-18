@@ -1,4 +1,0 @@
-/home/victus/Android/Sdk/cmake/3.22.1/bin/ninja \
-  -C \
-  /mnt/6C4CC5C54CC589F2/Projects/UnifiedCast/android/app/.cxx/RelWithDebInfo/4a3r1i5a/x86_64 \
-  unifiedcast_native
