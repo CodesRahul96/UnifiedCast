@@ -1,0 +1,4 @@
+/home/victus/Android/Sdk/cmake/3.22.1/bin/ninja \
+  -C \
+  /mnt/6C4CC5C54CC589F2/Projects/UnifiedCast/android/app/.cxx/Debug/1832614v/armeabi-v7a \
+  unifiedcast_native
