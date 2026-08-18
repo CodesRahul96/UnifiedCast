@@ -17,6 +17,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -891,27 +892,61 @@ fun DPadRemoteTab(
                     )
                     .border(2.dp, AccentCyan.copy(alpha = 0.5f), RoundedCornerShape(32.dp))
                     .pointerInput(Unit) {
-                        var dragX = 0f
-                        var dragY = 0f
+                        detectTapGestures(
+                            onTap = {
+                                onKeyClick(TvKeyCodes.KEYCODE_DPAD_CENTER)
+                            }
+                        )
+                    }
+                    .pointerInput(Unit) {
+                        var accumulatedX = 0f
+                        var accumulatedY = 0f
+                        val threshold = 35f
+
                         detectDragGestures(
-                            onDragStart = { dragX = 0f; dragY = 0f },
+                            onDragStart = {
+                                accumulatedX = 0f
+                                accumulatedY = 0f
+                            },
                             onDragEnd = {
-                                val absX = kotlin.math.abs(dragX)
-                                val absY = kotlin.math.abs(dragY)
-                                if (absX < 20f && absY < 20f) {
-                                    onKeyClick(TvKeyCodes.KEYCODE_DPAD_CENTER)
-                                } else if (absX > absY) {
-                                    if (dragX > 40f) onKeyClick(TvKeyCodes.KEYCODE_DPAD_RIGHT)
-                                    else if (dragX < -40f) onKeyClick(TvKeyCodes.KEYCODE_DPAD_LEFT)
-                                } else {
-                                    if (dragY > 40f) onKeyClick(TvKeyCodes.KEYCODE_DPAD_DOWN)
-                                    else if (dragY < -40f) onKeyClick(TvKeyCodes.KEYCODE_DPAD_UP)
-                                }
+                                accumulatedX = 0f
+                                accumulatedY = 0f
+                            },
+                            onDragCancel = {
+                                accumulatedX = 0f
+                                accumulatedY = 0f
                             },
                             onDrag = { change, dragAmount ->
                                 change.consume()
-                                dragX += dragAmount.x
-                                dragY += dragAmount.y
+                                accumulatedX += dragAmount.x
+                                accumulatedY += dragAmount.y
+
+                                val absX = kotlin.math.abs(accumulatedX)
+                                val absY = kotlin.math.abs(accumulatedY)
+
+                                if (absX > threshold || absY > threshold) {
+                                    if (absX > absY) {
+                                        if (accumulatedX > threshold) {
+                                            onKeyClick(TvKeyCodes.KEYCODE_DPAD_RIGHT)
+                                            accumulatedX = 0f
+                                            accumulatedY = 0f
+                                        } else if (accumulatedX < -threshold) {
+                                            onKeyClick(TvKeyCodes.KEYCODE_DPAD_LEFT)
+                                            accumulatedX = 0f
+                                            accumulatedY = 0f
+                                        }
+                                    } else {
+                                        if (accumulatedY > threshold) {
+                                            onKeyClick(TvKeyCodes.KEYCODE_DPAD_DOWN)
+                                            accumulatedX = 0f
+                                            accumulatedY = 0f
+                                        } else if (accumulatedY < -threshold) {
+                                            onKeyClick(TvKeyCodes.KEYCODE_DPAD_UP)
+                                            accumulatedX = 0f
+                                            accumulatedY = 0f
+                                        }
+                                    }
+                                }
                             }
                         )
                     },
