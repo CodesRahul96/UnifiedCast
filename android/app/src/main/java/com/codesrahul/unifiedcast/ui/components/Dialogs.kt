@@ -2,6 +2,7 @@ package com.codesrahul.unifiedcast.ui.components
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -140,9 +141,9 @@ fun PairDevicesDialog(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .clickable { onDeviceSelect(device) },
-                            shape = RoundedCornerShape(14.dp),
+                            shape = RoundedCornerShape(16.dp),
                             colors = CardDefaults.cardColors(containerColor = SurfaceDark),
-                            border = BorderStroke(1.dp, Color.White.copy(alpha = 0.08f))
+                            border = BorderStroke(1.5.dp, AccentCyan.copy(alpha = 0.35f))
                         ) {
                             Row(
                                 modifier = Modifier
@@ -157,16 +158,17 @@ fun PairDevicesDialog(
                                 ) {
                                     Box(
                                         modifier = Modifier
-                                            .size(42.dp)
+                                            .size(44.dp)
                                             .clip(RoundedCornerShape(12.dp))
-                                            .background(AccentCyan.copy(alpha = 0.15f)),
+                                            .background(AccentCyan.copy(alpha = 0.15f))
+                                            .border(1.dp, AccentCyan.copy(alpha = 0.4f), RoundedCornerShape(12.dp)),
                                         contentAlignment = Alignment.Center
                                     ) {
                                         Icon(
                                             imageVector = Icons.Default.Build,
                                             contentDescription = null,
                                             tint = AccentCyan,
-                                            modifier = Modifier.size(20.dp)
+                                            modifier = Modifier.size(22.dp)
                                         )
                                     }
 
@@ -189,8 +191,8 @@ fun PairDevicesDialog(
                                             )
                                             Spacer(modifier = Modifier.width(6.dp))
                                             Text(
-                                                text = "${device.ip}:${device.port}",
-                                                fontSize = 12.sp,
+                                                text = "${device.ip}:${device.port} • ${device.deviceType}",
+                                                fontSize = 11.sp,
                                                 color = AccentCyan,
                                                 fontWeight = FontWeight.Medium
                                             )
@@ -200,7 +202,7 @@ fun PairDevicesDialog(
 
                                 Button(
                                     onClick = { onDeviceSelect(device) },
-                                    shape = RoundedCornerShape(10.dp),
+                                    shape = RoundedCornerShape(12.dp),
                                     colors = ButtonDefaults.buttonColors(containerColor = AccentCyan),
                                     contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
                                     modifier = Modifier.padding(start = 8.dp)

@@ -31,11 +31,12 @@ class SubnetScanner(private val context: Context) {
         val localIp = getLocalWifiIpAddress() ?: return@withContext emptyList()
         val subnetPrefix = localIp.substringBeforeLast(".")
 
-        Log.d("SubnetScanner", "Fast scanning subnet: $subnetPrefix.1 - 254")
+        Log.d("SubnetScanner", "Fast scanning subnet: $subnetPrefix.1 - 254 for ports 5555, 6466, 8080, 7000, 8008")
 
-        // Read ARP table first to get real device hostnames & MAC info
+        // Read ARP table first to get real device hostnames & MAC vendor info
         val arpMap = getArpTableDevices()
 
+        // Asynchronously check hosts in parallel with low timeout for responsive discovery
         val jobs = (1..254).map { i ->
             async(Dispatchers.IO) {
                 val host = "$subnetPrefix.$i"
@@ -53,11 +54,11 @@ class SubnetScanner(private val context: Context) {
         onDeviceFound: (DiscoveredDevice) -> Unit,
         discoveredList: MutableList<DiscoveredDevice>
     ) {
-        val portsToCheck = listOf(5555, 6466, 8080)
+        val portsToCheck = listOf(5555, 6466, 8080, 7000, 8008, 1900)
         for (port in portsToCheck) {
             try {
                 val socket = Socket()
-                socket.connect(InetSocketAddress(host, port), 200)
+                socket.connect(InetSocketAddress(host, port), 250)
                 socket.close()
 
                 val canonicalHost = try {
@@ -77,16 +78,25 @@ class SubnetScanner(private val context: Context) {
                     resolvedName.contains("shield", ignoreCase = true) || resolvedName.contains("nvidia", ignoreCase = true) -> "Nvidia Shield TV"
                     resolvedName.contains("tcl", ignoreCase = true) -> "TCL Google TV"
                     resolvedName.contains("hisense", ignoreCase = true) -> "Hisense Smart TV"
-                    resolvedName.contains("mi", ignoreCase = true) || resolvedName.contains("xiaomi", ignoreCase = true) -> "Xiaomi Mi TV"
-                    resolvedName.contains("desktop", ignoreCase = true) -> "PC Daemon ($host)"
+                    resolvedName.contains("mi", ignoreCase = true) || resolvedName.contains("xiaomi", ignoreCase = true) -> "Xiaomi Mi TV Box"
+                    resolvedName.contains("samsung", ignoreCase = true) -> "Samsung Smart TV"
+                    resolvedName.contains("lg", ignoreCase = true) -> "LG webOS TV"
+                    resolvedName.contains("desktop", ignoreCase = true) -> "PC Remote Daemon ($host)"
                     else -> "Android TV ($host)"
+                }
+
+                val devType = when (port) {
+                    5555 -> "ADB Wireless Remote"
+                    6466 -> "Android Remote Service v2"
+                    8008, 7000 -> "Chromecast / DIAL Remote"
+                    else -> "Smart Remote Protocol"
                 }
 
                 val dev = DiscoveredDevice(
                     name = brand,
                     ip = host,
                     port = port,
-                    deviceType = if (port == 5555) "ADB Wireless Remote" else "Android TV Remote v2",
+                    deviceType = devType,
                     brandIcon = "TV"
                 )
 
@@ -98,14 +108,14 @@ class SubnetScanner(private val context: Context) {
                 }
                 break
             } catch (e: Exception) {
-                // Closed port
+                // Closed port or unreachable host
             }
         }
     }
 
     private fun getFriendlyDeviceName(ip: String, port: Int): String {
         return when (ip.substringAfterLast(".")) {
-            "246" -> "Linux Desktop Receiver"
+            "246" -> "Linux TV Receiver"
             else -> "Smart TV ($ip)"
         }
     }
@@ -136,11 +146,13 @@ class SubnetScanner(private val context: Context) {
     private fun identifyMacVendor(mac: String): String {
         val prefix = mac.uppercase().take(8)
         return when {
-            prefix.startsWith("FC:A1:83") || prefix.startsWith("00:BB:3A") || prefix.startsWith("50:DC:E7") -> "Amazon Fire TV"
-            prefix.startsWith("00:04:1F") || prefix.startsWith("00:24:BE") -> "Sony Bravia TV"
+            prefix.startsWith("FC:A1:83") || prefix.startsWith("00:BB:3A") || prefix.startsWith("50:DC:E7") || prefix.startsWith("B4:7C:9C") -> "Amazon Fire TV"
+            prefix.startsWith("00:04:1F") || prefix.startsWith("00:24:BE") || prefix.startsWith("70:26:05") -> "Sony Bravia TV"
             prefix.startsWith("00:04:4B") || prefix.startsWith("B8:27:EB") -> "Nvidia Shield"
-            prefix.startsWith("D4:9E:3B") || prefix.startsWith("64:CE:64") -> "Xiaomi Mi Box"
+            prefix.startsWith("D4:9E:3B") || prefix.startsWith("64:CE:64") || prefix.startsWith("70:66:1B") -> "Xiaomi Mi Box"
             prefix.startsWith("AC:12:03") || prefix.startsWith("70:AF:6A") -> "TCL Google TV"
+            prefix.startsWith("48:44:F7") || prefix.startsWith("6C:E8:5C") -> "Samsung Smart TV"
+            prefix.startsWith("10:E5:6A") || prefix.startsWith("3C:CD:36") -> "LG Smart TV"
             else -> "Smart TV Device"
         }
     }
