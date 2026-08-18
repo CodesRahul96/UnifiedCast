@@ -1148,27 +1148,36 @@ fun MediaControlsTab(
     isDark: Boolean = true,
     onKeyClick: (Int) -> Unit
 ) {
-    val cardBg = if (isDark) CardBackground else LightCardBackground
     val textCol = if (isDark) TextPrimary else LightTextPrimary
-    val borderCol = if (isDark) Color.White.copy(alpha = 0.12f) else Color.Black.copy(alpha = 0.08f)
+    val txtSec = if (isDark) TextSecondary else LightTextSecondary
 
     Column(
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
-            .padding(16.dp),
+            .padding(vertical = 12.dp, horizontal = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(20.dp)
+        verticalArrangement = Arrangement.SpaceEvenly
     ) {
-        Text(
-            text = "Media Control Center",
-            fontSize = 18.sp,
-            fontWeight = FontWeight.ExtraBold,
-            color = AccentCyan,
-            letterSpacing = 0.5.sp
-        )
+        // Section Header
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            Text(
+                text = "Media Controls",
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Black,
+                color = textCol,
+                letterSpacing = (-0.5).sp
+            )
+            Spacer(modifier = Modifier.height(2.dp))
+            Text(
+                text = "Playback, Volume & Channel Control",
+                fontSize = 11.sp,
+                color = txtSec,
+                fontWeight = FontWeight.Bold
+            )
+        }
 
-        // Center Play / Pause Focal Button
+        // Center Play / Pause Focal Button (matching Home D-Pad OK center ring aesthetic)
         var isPlayPressed by remember { mutableStateOf(false) }
         val playScale by animateFloatAsState(
             targetValue = if (isPlayPressed) 0.85f else 1.0f,
@@ -1178,11 +1187,15 @@ fun MediaControlsTab(
 
         Box(
             modifier = Modifier
-                .size(90.dp)
+                .size(96.dp)
                 .scale(playScale)
                 .clip(CircleShape)
                 .background(if (isPlayPressed) Color(0xFFE5E5E5) else Color(0xFF1E1E1E))
-                .border(1.dp, Color.White.copy(alpha = 0.12f), CircleShape)
+                .border(
+                    width = 1.dp,
+                    color = Color.White.copy(alpha = 0.12f),
+                    shape = CircleShape
+                )
                 .shadow(8.dp, CircleShape)
                 .clickable {
                     isPlayPressed = true
@@ -1191,101 +1204,61 @@ fun MediaControlsTab(
             contentAlignment = Alignment.Center
         ) {
             LaunchedEffect(isPlayPressed) { if (isPlayPressed) { kotlinx.coroutines.delay(100); isPlayPressed = false } }
-            Text("⏯", color = if (isPlayPressed) Color(0xFF121212) else Color.White, fontWeight = FontWeight.Black, fontSize = 32.sp)
+            Icon(
+                imageVector = Icons.Default.PlayArrow,
+                contentDescription = "Play/Pause",
+                tint = if (isPlayPressed) Color(0xFF121212) else Color.White,
+                modifier = Modifier.size(42.dp)
+            )
         }
 
-        // Transport Controls Row (REW, PREV, NEXT, FWD)
+        // Transport Controls Row (REW, PREV, NEXT, FWD) - circular matching Home tab
         Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(10.dp),
+            horizontalArrangement = Arrangement.spacedBy(14.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            MediaControlButton(label = "REW ⏪", color = Color(0xFF1E1E1E), textColor = textCol, borderCol = borderCol) {
+            RemoteSystemButton(label = "REW", color = Color(0xFF1E1E1E), isDark = isDark) {
                 onKeyClick(TvKeyCodes.KEYCODE_MEDIA_REWIND)
             }
-            MediaControlButton(label = "PREV ⏮", color = cardBg, textColor = textCol, borderCol = borderCol) {
+            RemoteSystemButton(label = "PREV", color = Color(0xFF1E1E1E), isDark = isDark) {
                 onKeyClick(TvKeyCodes.KEYCODE_MEDIA_PREVIOUS)
             }
-            MediaControlButton(label = "NEXT ⏭", color = cardBg, textColor = textCol, borderCol = borderCol) {
+            RemoteSystemButton(label = "NEXT", color = Color(0xFF1E1E1E), isDark = isDark) {
                 onKeyClick(TvKeyCodes.KEYCODE_MEDIA_NEXT)
             }
-            MediaControlButton(label = "FWD ⏩", color = cardBg, textColor = textCol, borderCol = borderCol) {
+            RemoteSystemButton(label = "FWD", color = Color(0xFF1E1E1E), isDark = isDark) {
                 onKeyClick(TvKeyCodes.KEYCODE_MEDIA_FAST_FORWARD)
             }
         }
 
         // Volume Controls Row (VOL-, MUTE, VOL+)
         Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(10.dp),
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            MediaControlButton(label = "VOL - 🔉", color = cardBg, textColor = textCol, borderCol = borderCol) {
+            RemoteSystemButton(label = "VOL -", color = Color(0xFF1E1E1E), isDark = isDark) {
                 onKeyClick(TvKeyCodes.KEYCODE_VOLUME_DOWN)
             }
-            MediaControlButton(label = "MUTE 🔇", color = AccentRose.copy(alpha = 0.2f), textColor = AccentRose, borderCol = borderCol) {
+            RemoteSystemButton(label = "MUTE", color = AccentRose.copy(alpha = 0.85f), textColor = Color.White, isDark = isDark) {
                 onKeyClick(TvKeyCodes.KEYCODE_VOLUME_MUTE)
             }
-            MediaControlButton(label = "VOL + 🔊", color = cardBg, textColor = textCol, borderCol = borderCol) {
+            RemoteSystemButton(label = "VOL +", color = Color(0xFF1E1E1E), isDark = isDark) {
                 onKeyClick(TvKeyCodes.KEYCODE_VOLUME_UP)
             }
         }
 
         // Channel Rockers Row (CH -, CH +)
         Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(10.dp),
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            MediaControlButton(label = "CH DOWN ▼", color = cardBg, textColor = AccentCyan, borderCol = borderCol) {
+            RemoteSystemButton(label = "CH -", color = Color(0xFF1E1E1E), isDark = isDark) {
                 onKeyClick(TvKeyCodes.KEYCODE_CHANNEL_DOWN)
             }
-            MediaControlButton(label = "CH UP ▲", color = cardBg, textColor = AccentCyan, borderCol = borderCol) {
+            RemoteSystemButton(label = "CH +", color = Color(0xFF1E1E1E), isDark = isDark) {
                 onKeyClick(TvKeyCodes.KEYCODE_CHANNEL_UP)
             }
         }
-    }
-}
-
-@Composable
-fun RowScope.MediaControlButton(
-    label: String,
-    color: Color,
-    textColor: Color,
-    borderCol: Color,
-    onClick: () -> Unit
-) {
-    var isPressed by remember { mutableStateOf(false) }
-    val scale by animateFloatAsState(
-        targetValue = if (isPressed) 0.88f else 1.0f,
-        animationSpec = spring(dampingRatio = 0.4f, stiffness = 400f),
-        label = "MediaBtnScale"
-    )
-
-    Box(
-        modifier = Modifier
-            .weight(1f)
-            .height(50.dp)
-            .scale(scale)
-            .clip(RoundedCornerShape(16.dp))
-            .background(if (isPressed) AccentCyan.copy(alpha = 0.3f) else color)
-            .border(1.dp, borderCol, RoundedCornerShape(16.dp))
-            .shadow(if (isPressed) 2.dp else 6.dp, RoundedCornerShape(16.dp))
-            .clickable {
-                isPressed = true
-                onClick()
-            },
-        contentAlignment = Alignment.Center
-    ) {
-        LaunchedEffect(isPressed) { if (isPressed) { kotlinx.coroutines.delay(100); isPressed = false } }
-        Text(
-            text = label,
-            fontSize = 11.sp,
-            color = if (isPressed) TextPrimary else textColor,
-            fontWeight = FontWeight.Bold,
-            letterSpacing = 0.2.sp,
-            maxLines = 1
-        )
     }
 }
 
