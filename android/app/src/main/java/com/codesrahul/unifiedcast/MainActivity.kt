@@ -37,7 +37,11 @@ class MainActivity : ComponentActivity() {
 
     companion object {
         init {
-            System.loadLibrary("unifiedcast")
+            try {
+                System.loadLibrary("unifiedcast")
+            } catch (e: UnsatisfiedLinkError) {
+                e.printStackTrace()
+            }
         }
     }
 
