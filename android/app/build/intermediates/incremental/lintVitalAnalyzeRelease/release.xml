@@ -6,7 +6,7 @@
     mergedManifest="build/intermediates/merged_manifest/release/AndroidManifest.xml"
     proguardFiles="build/intermediates/default_proguard_files/global/proguard-android-optimize.txt-8.1.4:proguard-rules.pro"
     partialResultsDir="build/intermediates/lint_vital_partial_results/release/out"
-    desugaredMethodsFiles="/home/victus/.gradle/caches/8.9/transforms/4640d5938454f483b791df7a4bc41969/transformed/D8BackportedDesugaredMethods.txt">
+    desugaredMethodsFiles="/home/victus/.gradle/caches/8.9/transforms/286ccd2b5f9dd75292b4b5f4f9464ee0/transformed/D8BackportedDesugaredMethods.txt">
   <buildFeatures
       namespacing="REQUIRED"/>
   <sourceProviders>
@@ -25,6 +25,6 @@
       applicationId="com.codesrahul.unifiedcast"
       generatedSourceFolders="build/generated/ap_generated_sources/release/out"
       generatedResourceFolders="build/generated/res/resValues/release"
-      desugaredMethodsFiles="/home/victus/.gradle/caches/8.9/transforms/4640d5938454f483b791df7a4bc41969/transformed/D8BackportedDesugaredMethods.txt">
+      desugaredMethodsFiles="/home/victus/.gradle/caches/8.9/transforms/286ccd2b5f9dd75292b4b5f4f9464ee0/transformed/D8BackportedDesugaredMethods.txt">
   </mainArtifact>
 </variant>

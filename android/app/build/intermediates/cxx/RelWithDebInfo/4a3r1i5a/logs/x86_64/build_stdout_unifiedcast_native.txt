@@ -1,3 +1,2 @@
 ninja: Entering directory `/mnt/6C4CC5C54CC589F2/Projects/UnifiedCast/android/app/.cxx/RelWithDebInfo/4a3r1i5a/x86_64'
-[1/2] Building CXX object CMakeFiles/unifiedcast_native.dir/native_engine.cpp.o
-[2/2] Linking CXX shared library /mnt/6C4CC5C54CC589F2/Projects/UnifiedCast/android/app/build/intermediates/cxx/RelWithDebInfo/4a3r1i5a/obj/x86_64/libunifiedcast_native.so
+ninja: no work to do.
