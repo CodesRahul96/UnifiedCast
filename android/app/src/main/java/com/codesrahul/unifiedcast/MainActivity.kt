@@ -237,13 +237,15 @@ class MainActivity : ComponentActivity() {
                                 .border(1.dp, if (isDark) Color.White.copy(alpha = 0.08f) else Color.Black.copy(alpha = 0.06f), RoundedCornerShape(24.dp))
                                 .pointerInput(selectedTab) {
                                     var totalDrag = 0f
+                                    val tabOrder = listOf(2, 1, 0, 3, 4)
                                     detectHorizontalDragGestures(
                                         onDragStart = { totalDrag = 0f },
                                         onDragEnd = {
-                                            if (totalDrag < -80f && selectedTab < 3) {
-                                                selectedTab += 1
-                                            } else if (totalDrag > 80f && selectedTab > 0) {
-                                                selectedTab -= 1
+                                            val currentIndex = tabOrder.indexOf(selectedTab)
+                                            if (totalDrag < -80f && currentIndex < tabOrder.lastIndex) {
+                                                selectedTab = tabOrder[currentIndex + 1]
+                                            } else if (totalDrag > 80f && currentIndex > 0) {
+                                                selectedTab = tabOrder[currentIndex - 1]
                                             }
                                         },
                                         onHorizontalDrag = { _, dragAmount ->
